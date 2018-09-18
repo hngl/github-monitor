@@ -1,6 +1,8 @@
 import React, {Component} from "react";
-import {Card, CardBody, CardText, CardTitle} from "reactstrap";
+import Card from "@material-ui/core/Card";
 import './BranchCard.css'
+import CardContent from "@material-ui/core/CardContent/CardContent";
+import Typography from "@material-ui/core/Typography/Typography";
 
 export default class BranchCard extends Component {
   constructor(props) {
@@ -14,17 +16,16 @@ export default class BranchCard extends Component {
   render() {
     return (
         <Card className={"branch-card " + this.state.status}>
-          <CardBody>
-            <CardTitle className="branch-name">
+          <CardContent>
+            <Typography variant={"headline"} component="h2">
               {this.state.branch.name}
-            </CardTitle>
-            <CardText>
+            </Typography>
+            <Typography component="p">
               {this.state.branch.commit.sha.substring(0, 6)}
-            </CardText>
-          </CardBody>
+            </Typography>
+          </CardContent>
         </Card>
-    )
-        ;
+    );
   }
 
   fetchStatus() {
@@ -47,9 +48,7 @@ export default class BranchCard extends Component {
     })
         .then(({data}) => {
           console.debug('Fetched commit', data);
-          this.setState({
-            
-          })
+          this.setState({})
         })
   }
 }

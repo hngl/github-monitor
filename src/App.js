@@ -1,11 +1,17 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {Component} from 'react';
 import './App.css';
 import octokit from '@octokit/rest';
-import {Button, Card, CardBody, Col, Container, Form, Input, Label, Row} from 'reactstrap';
-import BranchCard from "./BranchCard.js";
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import TextField from '@material-ui/core/TextField';
+
+import BuildGrid from "./BuildGrid";
+import MuiThemeProvider from "@material-ui/core/es/styles/MuiThemeProvider";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
 const client = octokit();
+
+const theme = createMuiTheme({palette: {type: 'dark'}});
 
 class App extends Component {
 
@@ -50,40 +56,40 @@ class App extends Component {
 
   render() {
     return (
-        <div>
+        <MuiThemeProvider theme={theme}>
           <Container fluid={true}>
-            <Row>
-              {this.state.branches.map(branch => {
-                console.debug('Rendering branch', branch);
-                return (
-                    <Col xs={4} key={branch.name}>
-                      <BranchCard branch={branch} client={client} owner={this.state.owner} repo={this.state.repo}/>
-                    </Col>
-                )
-              })}
-            </Row>
+            <BuildGrid client={client} {...this.state}/>
             <Row>
               <Col>
                 <Card className="settings">
-                  <CardBody>
-                    <Form onSubmit={this.handleSettingsSubmit}>
-                      <Label>Owner</Label>
-                      <Input name="owner" defaultValue={this.state.owner}/>
-                      <Label>Repo</Label>
-                      <Input name="repo" defaultValue={this.state.repo}/>
-                      <Label>Token</Label>
-                      <Input name="token" defaultValue={this.state.token}/>
+                    <form onSubmit={this.handleSettingsSubmit}>
+                      <TextField label="Owner" name="owner" defaultValue={this.state.owner}/>
+                      <TextField label="Repo" name="repo" defaultValue={this.state.repo}/>
+                      <TextField label="Token" name="token" defaultValue={this.state.token}/>
                       <Button>Save</Button>
-                    </Form>
-                  </CardBody>
+                    </form>
                 </Card>
               </Col>
             </Row>
-
           </Container>
-        </div>
+        </MuiThemeProvider>
     );
   }
 }
+
+function Col(props) {
+  return(<div>{props.children}</div>);
+}
+
+function Row(props) {
+  return(<div>{props.children}</div>);
+}
+
+function Container(props) {
+  return(<div>{props.children}</div>);
+}
+
+
+
 
 export default App;
