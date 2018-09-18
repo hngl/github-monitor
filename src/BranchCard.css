@@ -1,0 +1,14 @@
+.branch-card.failure {
+    background: crimson;
+}
+.branch-card.success {
+    background: green;
+}
+.branch-card {
+    background: #424242;
+}
+.branch-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
