@@ -4,24 +4,37 @@ import './JobCard.css'
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
 
+function shortSha(sha) {
+  return sha.substring(0, 6)
+}
+
 export default class JobCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {branch: props.branch};
+    this.state = {
+      branch: props.branch,
+    };
     this.client = props.client;
     this.fetchStatus();
     this.fetchCommitDetails();
   }
 
   render() {
+    let commit = '';
+    if(undefined === this.state.message){
+      commit = shortSha(this.state.branch.commit.sha)
+    } else {
+      commit = this.state.author.name + ': '+ this.state.message;
+    }
+
     return (
         <Card className={"job-card " + this.state.status}>
           <CardContent>
             <Typography variant={"headline"} component="h2" className="job-name">
               {this.state.branch.name}
             </Typography>
-            <Typography component="p">
-              {this.state.branch.commit.sha.substring(0, 6)}
+            <Typography component="p" className="commit-desc">
+              {commit}
             </Typography>
           </CardContent>
         </Card>
@@ -35,7 +48,7 @@ export default class JobCard extends Component {
       ref: this.state.branch.commit.sha
     })
         .then(({data}) => {
-          console.debug('Fetched status', data);
+          console.debug(`Fetched status for commit ${shortSha(this.state.branch.commit.sha)}`, data);
           this.setState({status: data.state})
         })
   }
@@ -47,8 +60,8 @@ export default class JobCard extends Component {
       sha: this.state.branch.commit.sha
     })
         .then(({data}) => {
-          console.debug('Fetched commit', data);
-          this.setState({})
+          console.debug(`Fetched commit ${shortSha(this.state.branch.commit.sha)}`, data);
+          this.setState({...data.commit})
         })
   }
 }

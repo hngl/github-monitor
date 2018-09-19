@@ -44,6 +44,7 @@ class App extends Component {
       owner: this.state.owner,
       repo: this.state.repo
     }).then(({data}) => {
+      console.debug('Fetches branches', data);
       this.setState({branches: data});
     })
   };

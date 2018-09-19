@@ -7,7 +7,7 @@
 .job-card {
     background: #424242;
 }
-.job-name {
+.job-name, .commit-desc {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
