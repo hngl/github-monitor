@@ -3,6 +3,7 @@ import Card from "@material-ui/core/Card";
 import './JobCard.css'
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
+import moment from 'moment';
 
 function shortSha(sha) {
   return sha.substring(0, 6)
@@ -33,8 +34,11 @@ export default class JobCard extends Component {
             <Typography variant={"headline"} component="h2" className="job-name">
               {this.state.branch.name}
             </Typography>
-            <Typography component="p" className="commit-desc">
+            <Typography variant={"subheading"} component="h3" className="commit-desc">
               {commit}
+            </Typography>
+            <Typography component="p" className="commit-desc">
+              {this.state.author && moment(this.state.author.date).fromNow() || 'loading...'}
             </Typography>
           </CardContent>
         </Card>
