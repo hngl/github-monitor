@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import Card from "@material-ui/core/Card";
-import './BranchCard.css'
+import './JobCard.css'
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
 
-export default class BranchCard extends Component {
+export default class JobCard extends Component {
   constructor(props) {
     super(props);
     this.state = {branch: props.branch};
@@ -15,9 +15,9 @@ export default class BranchCard extends Component {
 
   render() {
     return (
-        <Card className={"branch-card " + this.state.status}>
+        <Card className={"job-card " + this.state.status}>
           <CardContent>
-            <Typography variant={"headline"} component="h2">
+            <Typography variant={"headline"} component="h2" className="job-name">
               {this.state.branch.name}
             </Typography>
             <Typography component="p">
