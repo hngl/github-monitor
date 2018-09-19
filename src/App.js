@@ -29,31 +29,26 @@ class App extends Component {
     this.state = {
       owner: localStorage.getItem('owner'),
       repo: localStorage.getItem('repo'),
-      branches: [],
       token: token,
       isSettingsOpen: !token
     };
-    if(this.state.token) {
-      this.fetchBranches()
+
+    // If token found, authenticate already
+    if(token) {
+      client.authenticate({type: 'token', token: token});
     }
   }
-
-  fetchBranches = () => {
-    client.authenticate({type: 'token', token: this.state.token});
-    client.repos.getBranches({
-      owner: this.state.owner,
-      repo: this.state.repo
-    }).then(({data}) => {
-      console.debug('Fetches branches', data);
-      this.setState({branches: data});
-    })
-  };
 
   handleSettingsSubmit = (event) => {
     event.preventDefault();
     let owner = event.target.elements.owner.value;
     let repo = event.target.elements.repo.value;
     let token = event.target.elements.token.value;
+    // If token changed, re-authenticate
+    if(token !== this.state.token) {
+      client.authenticate({type: 'token', token: token});
+    }
+    // Store new values
     localStorage.setItem('owner', owner);
     localStorage.setItem('repo', repo);
     localStorage.setItem('token', token);
@@ -63,7 +58,6 @@ class App extends Component {
       token: token,
       isSettingsOpen: false
     });
-    this.fetchBranches()
   };
 
   handleOpenSettings = () => {
@@ -75,7 +69,6 @@ class App extends Component {
   };
 
   render() {
-    let classes = {};
     return (
         <MuiThemeProvider theme={theme}>
           <AppBar position="static" color="default">
