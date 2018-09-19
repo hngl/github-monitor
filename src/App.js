@@ -4,10 +4,12 @@ import octokit from '@octokit/rest';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
-
 import JobGrid from "./JobGrid";
 import MuiThemeProvider from "@material-ui/core/es/styles/MuiThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import AppBar from "@material-ui/core/AppBar/AppBar";
+import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+import Typography from "@material-ui/core/Typography/Typography";
 
 const client = octokit();
 
@@ -57,7 +59,13 @@ class App extends Component {
   render() {
     return (
         <MuiThemeProvider theme={theme}>
-          <Container fluid={true}>
+          <AppBar position="static" color="default">
+            <Toolbar>
+              <Typography variant="title" color="inherit">
+                {this.state.owner} / {this.state.repo}
+              </Typography>
+            </Toolbar>
+          </AppBar>
             <JobGrid client={client} {...this.state}/>
             <Row>
               <Col>
@@ -71,7 +79,6 @@ class App extends Component {
                 </Card>
               </Col>
             </Row>
-          </Container>
         </MuiThemeProvider>
     );
   }
@@ -88,8 +95,5 @@ function Row(props) {
 function Container(props) {
   return(<div>{props.children}</div>);
 }
-
-
-
 
 export default App;
