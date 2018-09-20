@@ -4,68 +4,40 @@ import './JobCard.css'
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
 import moment from 'moment';
-
-function shortSha(sha) {
-  return sha.substring(0, 6)
-}
+import shortSha from './shortSha'
 
 export default class JobCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      branch: props.branch,
-    };
-    this.client = props.client;
-    this.fetchStatus();
-    this.fetchCommitDetails();
-  }
 
   render() {
-    let commit = '';
-    if(undefined === this.state.message){
-      commit = shortSha(this.state.branch.commit.sha)
-    } else {
-      commit = this.state.author.name + ': '+ this.state.message;
+    let commitDesc = shortSha(this.props.branch.commit.sha);
+    if(undefined !== this.props.commit) {
+      commitDesc = this.props.commit.commit.author.name + ': '+ this.props.commit.commit.message;
+    }
+
+    let stateDesc = 'loading...';
+    if(undefined !== this.props.commit) {
+      stateDesc =  moment(this.props.commit.commit.author.date).fromNow()
+    }
+
+    let state = 'loading';
+    if(undefined !== this.props.commit && undefined !== this.props.commit.state) {
+      state = this.props.commit.state;
     }
 
     return (
-        <Card className={"job-card " + this.state.status}>
+        <Card className={"job-card " + state}>
           <CardContent>
             <Typography variant={"headline"} component="h2" className="job-name">
-              {this.state.branch.name}
+              {this.props.branch.name}
             </Typography>
             <Typography variant={"subheading"} component="h3" className="commit-desc">
-              {commit}
+              {commitDesc}
             </Typography>
             <Typography component="p" className="commit-desc">
-              {this.state.author && moment(this.state.author.date).fromNow() || 'loading...'}
+              {stateDesc}
             </Typography>
           </CardContent>
         </Card>
     );
-  }
-
-  fetchStatus() {
-    this.client.repos.getCombinedStatusForRef({
-      owner: this.props.owner,
-      repo: this.props.repo,
-      ref: this.state.branch.commit.sha
-    })
-        .then(({data}) => {
-          console.debug(`Fetched status for commit ${shortSha(this.state.branch.commit.sha)}`, data);
-          this.setState({status: data.state})
-        })
-  }
-
-  fetchCommitDetails() {
-    this.client.repos.getCommit({
-      owner: this.props.owner,
-      repo: this.props.repo,
-      sha: this.state.branch.commit.sha
-    })
-        .then(({data}) => {
-          console.debug(`Fetched commit ${shortSha(this.state.branch.commit.sha)}`, data);
-          this.setState({...data.commit})
-        })
   }
 }
