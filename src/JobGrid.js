@@ -17,34 +17,36 @@ export default class JobGrid extends Component {
 
   componentDidMount() {
     this.fetchBranches();
+    this.timer = window.setInterval(() => {this.fetchBranches()}, 1000*30)
+  }
+
+  componentWillUnmount() {
+    window.clearInterval(this.timer)
   }
 
   fetchBranches = () => {
-    console.debug('Fetching branches');
     this.props.client.repos.getBranches({
       owner: this.props.owner,
       repo: this.props.repo
     }).then(({data}) => {
-      console.debug('Fetched branches', data);
+      console.debug('Fetched branches');
       this.setState({branches: data});
       data.forEach(branch => {
-        if(!this.state.commits.has(branch.commit.sha)) {
           this.fetchCommit(branch.commit.sha);
-        }
       })
     }).catch(console.error)
   };
 
   fetchCommit(sha) {
-    console.debug(`Fetching commit ${shortSha(sha)}`);
     this.props.client.repos.getCommit({
       owner: this.props.owner,
       repo: this.props.repo,
       sha: sha
     })
         .then(({data}) => {
-          console.debug(`Fetched commit ${shortSha(sha)}`, data);
-          this.setState({commits: new Map(this.state.commits).set(sha, data)});
+          console.debug(`Fetched commit ${shortSha(sha)}`);
+          let newCommit = Object.assign({}, this.getCommit(sha), data);
+          this.setState({commits: new Map(this.state.commits).set(sha, newCommit)});
           this.fetchStatus(sha)
         }).catch(console.error)
   }
@@ -56,7 +58,7 @@ export default class JobGrid extends Component {
       ref: sha
     })
         .then(({data}) => {
-          console.debug(`Fetched status for ${shortSha(sha)}`, data);
+          console.debug(`Fetched status for ${shortSha(sha)}`);
           let newCommit = Object.assign({}, this.getCommit(sha), {state: data.state, statuses: data.statuses});
           this.setState({commits: new Map(this.state.commits).set(sha, newCommit)})
         }).catch(console.error)
