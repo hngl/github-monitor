@@ -11,12 +11,12 @@ export default class JobCard extends Component {
   render() {
     let commitDesc = shortSha(this.props.branch.commit.sha);
     if(undefined !== this.props.commit) {
-      commitDesc = this.props.commit.commit.author.name + ': '+ this.props.commit.commit.message;
+      commitDesc = this.props.commit.commit.message;
     }
 
     let stateDesc = 'loading...';
     if(undefined !== this.props.commit) {
-      stateDesc =  moment(this.props.commit.commit.author.date).fromNow()
+      stateDesc = this.props.commit.commit.author.name + ', ' + moment(this.props.commit.commit.author.date).fromNow()
     }
 
     let state = 'loading';
