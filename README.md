@@ -1,5 +1,9 @@
 # Github Monitor
 
+## Usage
+
+Go to https://hngl.github.io/github-monitor/
+
 ## Development
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
