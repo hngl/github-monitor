@@ -1,0 +1,1 @@
+body{background-color:#303030;color:#fff;font-family:sans-serif;margin:0;padding:0}.job-card.failure{background:#dc143c}.job-card.success{background:green}.job-card{background:#424242}.commit-desc,.job-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.job-grid{padding:16px}
