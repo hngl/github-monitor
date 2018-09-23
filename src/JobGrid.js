@@ -17,7 +17,7 @@ export default class JobGrid extends Component {
 
   componentDidMount() {
     this.fetchBranches();
-    this.timer = window.setInterval(() => {this.fetchBranches()}, 1000*30)
+    this.timer = window.setInterval(() => {this.fetchBranches()}, 1000*70)
   }
 
   componentWillUnmount() {
