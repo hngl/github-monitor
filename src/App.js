@@ -46,7 +46,7 @@ class App extends Component {
     let token = event.target.elements.token.value;
     // If token changed, re-authenticate
     if(token !== this.state.token) {
-      client.authenticate({type: 'token', token: token});
+        client.authenticate({type: 'token', token: token});
     }
     // Store new values
     localStorage.setItem('owner', owner);
@@ -70,50 +70,61 @@ class App extends Component {
 
   render() {
     return (
-        <MuiThemeProvider theme={theme}>
-          <AppBar position="static" color="default">
-            <Toolbar>
-              <Typography variant="title" color="inherit" style={{flexGrow: 1}}>
-                {this.state.owner} / {this.state.repo}
-              </Typography>
-              <Button onClick={this.handleOpenSettings}>Settings</Button>
-            </Toolbar>
-          </AppBar>
+      <MuiThemeProvider theme={theme}>
+        <AppBar position="static" color="default">
+          <Toolbar>
+            <Typography variant="title" color="inherit" style={{flexGrow: 1}}>
+              {this.state.owner} / {this.state.repo}
+            </Typography>
+            <Button onClick={this.handleOpenSettings}>Settings</Button>
+          </Toolbar>
+        </AppBar>
           <JobGrid client={client} {...this.state}/>
-          <Dialog
-              fullScreen
-              open={this.state.isSettingsOpen}
-              onClose={this.handleCloseSettings}
-              TransitionComponent={SlideTransition}
-          >
-            <form onSubmit={this.handleSettingsSubmit}>
-              <AppBar color="default" style={{position: 'relative'}}>
-                <Toolbar>
-                  <IconButton color="inherit" onClick={this.handleCloseSettings} aria-label="Close">
-                    <CloseIcon/>
-                  </IconButton>
-                  <Typography variant="title" color="inherit" style={{flexGrow: 1}}>
-                    Settings
-                  </Typography>
-                  <Button color="inherit" type="submit">
-                    Save
-                  </Button>
-                </Toolbar>
-              </AppBar>
-              <List>
-                <ListItem>
-                  <TextField label="Owner" name="owner" defaultValue={this.state.owner}/>
-                </ListItem>
-                <ListItem>
-                  <TextField label="Repo" name="repo" defaultValue={this.state.repo}/>
-                </ListItem>
-                <ListItem>
-                  <TextField label="Token" name="token" defaultValue={this.state.token}/>
-                </ListItem>
-              </List>
-            </form>
-          </Dialog>
-        </MuiThemeProvider>
+        <Dialog
+          fullScreen
+          open={this.state.isSettingsOpen}
+          onClose={this.handleCloseSettings}
+          TransitionComponent={SlideTransition}
+        >
+          <form onSubmit={this.handleSettingsSubmit}>
+            <AppBar color="default" style={{position: 'relative'}}>
+              <Toolbar>
+                <IconButton color="inherit" onClick={this.handleCloseSettings} aria-label="Close">
+                  <CloseIcon/>
+                </IconButton>
+                <Typography variant="title" color="inherit" style={{flexGrow: 1}}>
+                  Settings
+                </Typography>
+                <Button color="inherit" type="submit">
+                  Save
+                </Button>
+              </Toolbar>
+            </AppBar>
+            <List>
+              <ListItem>
+                <TextField label="Owner" name="owner" defaultValue={this.state.owner}/>
+              </ListItem>
+              <ListItem>
+                <TextField label="Repository" name="repo" defaultValue={this.state.repo}/>
+              </ListItem>
+              <ListItem>
+                <TextField label="Personal Access Token" name="token" defaultValue={this.state.token} helperText={this.renderTokenHelperText()} />
+              </ListItem>
+            </List>
+          </form>
+        </Dialog>
+      </MuiThemeProvider>
+    );
+  }
+
+  renderTokenHelperText = () => {
+    return (
+      <span>
+        Go get a token at&nbsp;
+        <a href="https://github.com/settings/tokens/new?scopes=repo:status" target="_blank">
+          Github Settings
+        </a>
+      </span>
     );
   }
 }
