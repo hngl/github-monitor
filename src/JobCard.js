@@ -16,7 +16,7 @@ export default class JobCard extends Component {
 
     let stateDesc = 'loading...';
     if(undefined !== this.props.commit) {
-      stateDesc = this.props.commit.commit.author.name + ', ' + moment(this.props.commit.commit.author.date).fromNow()
+      stateDesc = this.props.commit.commit.committer.name + ', ' + moment(this.props.commit.commit.committer.date).fromNow()
     }
 
     let state = 'loading';

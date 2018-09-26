@@ -79,8 +79,8 @@ export default class JobGrid extends Component {
       if(!this.state.commits.has(branchB.commit.sha)) {
         return -2; // Sort B to a lower index
       }
-      let dateA = this.getCommit(branchA.commit.sha).commit.author.date;
-      let dateB = this.getCommit(branchB.commit.sha).commit.author.date;
+      let dateA = this.getCommit(branchA.commit.sha).commit.committer.date;
+      let dateB = this.getCommit(branchB.commit.sha).commit.committer.date;
       if(dateA === dateB) {
         return 0; // Do nothing
       }
