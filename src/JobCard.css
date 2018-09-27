@@ -4,6 +4,9 @@
 .job-card.success {
     background: green;
 }
+.job-card.pending {
+    background: dodgerblue;
+}
 .job-card {
     background: #424242;
 }
