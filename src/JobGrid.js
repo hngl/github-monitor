@@ -25,7 +25,7 @@ export default class JobGrid extends Component {
   }
 
   fetchBranches = () => {
-    this.props.client.repos.getBranches({
+    this.props.client.repos.listBranches({
       owner: this.props.owner,
       repo: this.props.repo
     }).then(({data}) => {
