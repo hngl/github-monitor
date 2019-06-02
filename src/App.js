@@ -81,7 +81,11 @@ class App extends Component {
         <AppBar position="static" color="default">
           <Toolbar>
             <Typography variant="title" color="inherit" style={{flexGrow: 1}}>
-              {this.state.owner} / {this.state.repo}
+              {this.isConfigured() ? (
+                  this.state.owner + '/' +  this.state.repo
+              ) : (
+                <span>Github Monitor <small>by hngl</small></span>
+              ) }
             </Typography>
             <Button onClick={this.handleOpenSettings}>Settings</Button>
           </Toolbar>

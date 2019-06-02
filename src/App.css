@@ -3,6 +3,10 @@ body {
     color: white;
 }
 
+header h2 small {
+	color: gray;
+}
+
 .app-contents {
 	padding: 16px;
 }
