@@ -15,6 +15,9 @@ import List from "@material-ui/core/List/List";
 import ListItem from "@material-ui/core/ListItem/ListItem";
 import Slide from "@material-ui/core/Slide/Slide";
 import CloseIcon from '@material-ui/icons/Close';
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 
 const client = octokit();
 
@@ -30,7 +33,7 @@ class App extends Component {
       owner: localStorage.getItem('owner'),
       repo: localStorage.getItem('repo'),
       token: token,
-      isSettingsOpen: !token
+      isSettingsOpen: false
     };
 
     // If token found, authenticate already
@@ -68,6 +71,10 @@ class App extends Component {
     this.setState({isSettingsOpen: false})
   };
 
+  isConfigured = () => {
+    return this.state.owner && this.state.repo
+  };
+
   render() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -79,7 +86,16 @@ class App extends Component {
             <Button onClick={this.handleOpenSettings}>Settings</Button>
           </Toolbar>
         </AppBar>
-          <JobGrid client={client} {...this.state}/>
+        <div className='app-contents'>
+          {this.isConfigured() ? (
+              <JobGrid client={client} {...this.state}/>
+          ) : (
+              <GoToSettingsCard
+                  message="No repository configured yet. We're just getting started."
+                  onClick={this.handleOpenSettings}
+              />
+          ) }
+        </div>
         <Dialog
           fullScreen
           open={this.state.isSettingsOpen}
@@ -127,6 +143,21 @@ class App extends Component {
       </span>
     );
   }
+}
+
+function GoToSettingsCard(props) {
+  return (
+      <Card className='notice-card'>
+        <CardContent>
+          <Typography variant="body2" component="p">
+            {props.message}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" onClick={props.onClick}>Go to Settings</Button>
+        </CardActions>
+      </Card>
+  );
 }
 
 function SlideTransition(props) {
