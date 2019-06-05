@@ -47,7 +47,9 @@ jobs:
             - "71:6b:d2:01:f9:6c:19:1d:24:32:f3:7b:71:5f:67:7a"
       # Add Github's host key, or else the deploy step will hang
       - run: echo $GITHUB_SSH_HOST_KEY >> ~/.ssh/known_hosts
-      - run: yarn deploy
+      - run: git config user.email $GITHUB_PUBLIC_EMAIL
+      - run: git config user.name $GITHUB_PUBLIC_NAME
+      - run: yarn deploy -- --repo $CIRCLE_REPOSITORY_URL
 
 workflows:
   version: 2
