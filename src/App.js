@@ -141,7 +141,10 @@ class App extends Component {
     return (
       <span>
         Go get a token at&nbsp;
-        <a href="https://github.com/settings/tokens/new?scopes=repo" target="_blank">
+        <a href="https://github.com/settings/tokens/new?scopes=repo"
+           target="_blank"
+           rel="noopener noreferrer"
+        >
           Github Settings
         </a>
       </span>
