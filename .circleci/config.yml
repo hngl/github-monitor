@@ -31,6 +31,7 @@ jobs:
             - src/*
             - public/*
             - build/*
+            - .git
           # Persist both source and artifacts, as the predeploy script
           # is automatically triggered
 
@@ -46,7 +47,7 @@ jobs:
             - "71:6b:d2:01:f9:6c:19:1d:24:32:f3:7b:71:5f:67:7a"
       # Add Github's host key, or else the deploy step will hang
       - run: echo $GITHUB_SSH_HOST_KEY >> ~/.ssh/known_hosts
-      - run: yarn deploy -- --repo $CIRCLE_REPOSITORY_URL
+      - run: yarn deploy
 
 workflows:
   version: 2
