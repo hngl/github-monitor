@@ -23,7 +23,17 @@ jobs:
       # Build bundles
       - run: yarn build
 
-      - run: yarn test
+      # Use --transformIgnorePatterns to supress SyntaxError "Jest encountered an unexpected token"
+      #   Details:
+      #   /home/circleci/repo/node_modules/@material-ui/core/es/styles/MuiThemeProvider.js:1
+      #   ({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,global,jest){import _extends from "@babel/runtime/helpers/extends";
+      #                                                                                                 ^^^^^^
+      #   SyntaxError: Unexpected token import
+
+      #      5 | import TextField from '@material-ui/core/TextField';
+      #      6 | import JobGrid from "./JobGrid";
+      #   >  7 | import MuiThemeProvider from "@material-ui/core/es/styles/MuiThemeProvider";
+      - run: yarn test -- --transformIgnorePatterns '<rootDir>/node_modules/(?!@material-ui)'
 
       - persist_to_workspace:
           root: ~/repo
