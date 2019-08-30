@@ -23,6 +23,8 @@ jobs:
       # Build bundles
       - run: yarn build
 
+      - run: yarn test
+
       - persist_to_workspace:
           root: ~/repo
           paths:
