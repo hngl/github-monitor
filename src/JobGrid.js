@@ -41,7 +41,7 @@ export default class JobGrid extends Component {
     this.props.client.repos.getCommit({
       owner: this.props.owner,
       repo: this.props.repo,
-      sha: sha
+      coomit_sha: sha
     })
         .then(({data}) => {
           console.debug(`Fetched commit ${shortSha(sha)}`);
